@@ -10,6 +10,15 @@ Sebuah replika (clone) dari platform media sosial **X (sebelumnya Twitter)**. Pr
 * **Comment & Interaction**: Sistem diskusi interaktif dengan fitur komentar dan balasan (reply) berantai. (Pembatasan: 1 user maksimal 5 komentar).
 * **Notification System**: Sistem notifikasi untuk aktivitas pengguna dan fitur interaksi pada postingan.
 
+## 👥 Pembagian Tugas Anggota
+
+| Nama Anggota | Tugas / Role |
+| :--- | :--- |
+| **Nama Anggota 1** | - |
+| **Nama Anggota 2** | - |
+| **Nama Anggota 3** | - |
+| **Nama Anggota 4** | - |
+| **Nama Anggota 5** | - |
 
 ## 📁 Link Dokumen
 
