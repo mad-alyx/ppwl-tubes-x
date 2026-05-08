@@ -14,11 +14,12 @@ Sebuah replika (clone) dari platform media sosial **X (sebelumnya Twitter)**. Pr
 
 | Nama Anggota | Tugas / Role |
 | :--- | :--- |
-| **Nama Anggota 1** | - |
-| **Nama Anggota 2** | - |
-| **Nama Anggota 3** | - |
-| **Nama Anggota 4** | - |
-| **Nama Anggota 5** | - |
+| **Nayla Zakiyah Andani** | - |
+| **Rola Dea Januarita** | - |
+| **Irene Nasya Azalia** | - |
+| **Fahdil Raihandi** | - |
+| **Nabil Nur Fauzan** | - |
+| **Raden Aliyah Panji Anom** | - |
 
 ## 📁 Link Dokumen
 
