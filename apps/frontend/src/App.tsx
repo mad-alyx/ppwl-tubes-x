@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/LogIn_SignIn';
-// 1. Import komponen Toaster dari sonner
 import { Toaster } from 'sonner'; 
+import Beranda from './pages/Beranda'; 
 
-// Halaman-halaman sementara (Dummy) buat ngetes rute kalau berhasil login
-const Beranda = () => <div className="text-white p-5 text-2xl font-bold">Halaman Beranda (Irene)</div>;
+// Halaman-halaman sementara lainnya (Biarkan dulu yang ini kalau belum ada filenya)
 const Explore = () => <div className="text-white p-4">Explore Page</div>;
 const Notifikasi = () => <div className="text-white p-4">Halaman Notifikasi (Ale)</div>;
 const Follow = () => <div className="text-white p-4">Follow Page</div>;
@@ -18,16 +17,16 @@ const EditProfile = () => <div className="text-white p-4">Halaman Edit Profile (
 export default function App() {
   return (
     <Router>
-      {/* 2. Taruh Toaster di sini agar popup bisa muncul di atas semua halaman */}
       <Toaster position="top-right" richColors />
 
       <Routes>
-        {/* Pintu masuk utama: localhost:5173 langsung nampilin halaman Login Rola */}
+        {/* Pintu masuk utama */}
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Rute-rute ini baru bisa diakses kalau dialihkan/diketik manual */}
+        {/* 2. Rute Beranda sekarang otomatis memanggil komponen asli milik Irene */}
         <Route path="/beranda" element={<Beranda />} />
+        
         <Route path="/explore" element={<Explore />} />
         <Route path="/notifications" element={<Notifikasi />} />
         <Route path="/follow" element={<Follow />} />
