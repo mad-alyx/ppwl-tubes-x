@@ -54,10 +54,10 @@ const Beranda = () => {
   ];
 
   return (
-    <div className="flex min-h-screen bg-[#000000] text-[#E7E9EA] font-sans max-w-[1300px] mx-auto">
+    <div className="flex min-h-screen bg-[#000000] text-[#E7E9EA] font-sans max-w-325 mx-auto">
       
       {/* 1. SIDEBAR (KIRI) - Desktop Version [1] */}
-      <aside className="hidden md:flex flex-col w-[275px] h-screen sticky top-0 px-2 border-r border-[#2F3336]">
+      <aside className="hidden md:flex flex-col w-68.75 h-screen sticky top-0 px-2 border-r border-[#2F3336]">
         {/* Logo X */}
         <div className="p-3 mb-2 hover:bg-[#0F1419] w-fit rounded-full transition cursor-pointer">
           <XIcon size={30} className="text-white" />
@@ -102,7 +102,7 @@ const Beranda = () => {
       </aside>
 
       {/* 2. MAIN FEED (TENGAH)  */}
-      <main className="flex-1 border-r border-[#2F3336] max-w-[600px] mb-[60px] md:mb-0">
+      <main className="flex-1 border-r border-[#2F3336] max-w-150 mb-15 md:mb-0">
         {/* Header Tab */}
         <div className="sticky top-0 bg-[#000000]/80 backdrop-blur-md border-b border-[#2F3336] z-10">
           <h1 className="p-4 text-xl font-bold text-white">Home</h1>
@@ -128,7 +128,7 @@ const Beranda = () => {
           <div className="flex-1">
             <textarea 
               placeholder="What is happening?!" 
-              className="w-full bg-transparent text-xl outline-none resize-none min-h-[100px] placeholder:text-[#71767B]"
+              className="w-full bg-transparent text-xl outline-none resize-none min-h-25 placeholder:text-[#71767B]"
             />
             <div className="flex justify-between items-center mt-3 pt-3 border-t border-[#2F3336]">
               <div className="flex text-[#1D9BF0] gap-4">
@@ -155,7 +155,7 @@ const Beranda = () => {
       </main>
 
       {/* 3. WIDGETS (KANAN) */}
-      <aside className="hidden lg:block w-[350px] p-4 space-y-4">
+      <aside className="hidden lg:block w-87.5 p-4 space-y-4">
         <div className="sticky top-2">
           <div className="bg-[#16181C] p-3 rounded-full border border-transparent focus-within:border-[#1D9BF0] focus-within:bg-black transition flex items-center gap-3 group">
             <Search size={18} className="text-[#71767B] group-focus-within:text-[#1D9BF0] ml-2" />
