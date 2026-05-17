@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { toast } from 'sonner';
 
+// IMPORT KOMPONEN MODULAR YANG BARU SAJA DIPISAHKAN
+import AuthInput from '../components/rola/AuthInput';
+import XLogo from '../components/rola/XLogo';
+
 export default function Login() {
   const [isRegister, setIsRegister] = useState(false); // Toggle antara Login dan Register
   const [email, setEmail] = useState('');
@@ -20,7 +24,6 @@ export default function Login() {
     const payload = isRegister ? { email, password, name } : { email, password };
 
     try {
-      // Mencoba nembak backend
       const response = await fetch(`http://localhost:3000${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -34,7 +37,6 @@ export default function Login() {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         
-        // 1. Pemicu Fitur Notif Sonner Ale (Jika backend sukses)
         toast.success('Selamat Datang Kembali di X!', {
           description: `Halo ${data.user?.name || 'User'}, senang melihat Anda kembali.`,
         });
@@ -54,7 +56,6 @@ export default function Login() {
         localStorage.setItem('token', 'token-palsu-ale');
         localStorage.setItem('user', JSON.stringify({ name: 'Ale (Simulasi)', email }));
         
-        // 2. Pemicu Fitur Notif Sonner Ale (Mode Simulasi)
         toast.success('Selamat Datang Kembali di X! (Mode Simulasi)', {
           description: 'Berhasil masuk tanpa backend untuk keperluan testing.',
         });
@@ -65,7 +66,6 @@ export default function Login() {
       } else {
         setError(err.message);
       }
-      // -------------------------------------------------
     } finally {
       setLoading(false);
     }
@@ -84,7 +84,6 @@ export default function Login() {
 
       if (!response.ok) throw new Error(data.message || 'Google Login Gagal di Server');
 
-      // Simpan token dari backend
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       alert('Login via Google Berhasil!');
@@ -98,11 +97,9 @@ export default function Login() {
     <div className="flex h-screen w-screen items-center justify-center bg-[#000000] text-[#E7E9EA] font-sans antialiased">
       <div className="w-full max-w-md p-8 bg-[#000000] rounded-2xl border border-[#2F3336]">
         
-        {/* Logo X SVG sesuai warna palet asli */}
+        {/* Logo X Hasil Pemisahan Komponen */}
         <div className="flex justify-center mb-6">
-          <svg viewBox="0 0 24 24" className="h-12 w-12 fill-[#FFFFFF]">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-          </svg>
+          <XLogo className="h-12 w-12 fill-[#FFFFFF]" />
         </div>
 
         <h2 className="text-3xl font-extrabold mb-6 text-center tracking-tight text-[#E7E9EA]">
@@ -132,35 +129,29 @@ export default function Login() {
           <hr className="grow border-[#2F3336]" />
         </div>
 
-        {/* Form Login / Register Manual */}
+        {/* Form Login / Register Menggunakan AuthInput Modular */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {isRegister && (
-            <input
+            <AuthInput
               type="text"
               placeholder="Nama Lengkap"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-3.5 bg-[#000000] border border-[#2F3336] rounded-md text-[#E7E9EA] placeholder-[#536471] focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] focus:outline-none transition"
-              required
             />
           )}
           
-          <input
+          <AuthInput
             type="email"
             placeholder="Alamat Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3.5 bg-[#000000] border border-[#2F3336] rounded-md text-[#E7E9EA] placeholder-[#536471] focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] focus:outline-none transition"
-            required
           />
           
-          <input
+          <AuthInput
             type="password"
             placeholder="Kata Sandi"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3.5 bg-[#000000] border border-[#2F3336] rounded-md text-[#E7E9EA] placeholder-[#536471] focus:border-[#1D9BF0] focus:ring-1 focus:ring-[#1D9BF0] focus:outline-none transition"
-            required
           />
 
           <button
