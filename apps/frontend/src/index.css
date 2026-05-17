@@ -1,34 +1,47 @@
 @import "tailwindcss";
 
-/* 1. Definisi Font Face */
-
-/* Tiket Odyssey - Regular */
 @font-face {
-  font-family: "TiketOdyssey";
-  src: url("/fonts/TiketOdysseyText-Regular.woff2") format("woff2");
+  font-family: "Chirp";
+  src: url("/fonts/Chirp-Regular.80fda27a.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-/* Tiket Odyssey - Medium/SemiBold */
 @font-face {
-  font-family: "TiketOdyssey";
-  src: url("/fonts/TiketOdysseyText-SemiBold.woff2") format("woff2");
-  font-weight: 600;
+  font-family: "Chirp";
+  src: url("/fonts/Chirp-Medium.f8e2739a.woff2") format("woff2");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
-/* Tiket Odyssey - Bold */
 @font-face {
-  font-family: "TiketOdyssey";
-  src: url("/fonts/TiketOdysseyText-Bold.woff2") format("woff2");
+  font-family: "Chirp";
+  src: url("/fonts/Chirp-Bold.ebb56aba.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Chirp";
+  src: url("/fonts/Chirp-Heavy.f44ae4ea.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Pasang font Chirp sebagai prioritas utama secara global */
+*, html, body {
+  font-family: "Chirp", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+/* Setelan tema gelap wajib X */
+body {
+  background-color: #000000 !important;
+  color: #e7e9ea !important;
+}
 
 
 /* 3. Global Styles */

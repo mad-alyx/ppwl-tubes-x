@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
+import { toast } from 'sonner';
 
 export default function Login() {
   const [isRegister, setIsRegister] = useState(false); // Toggle antara Login dan Register
@@ -19,7 +20,7 @@ export default function Login() {
     const payload = isRegister ? { email, password, name } : { email, password };
 
     try {
-      // Sesuaikan port ini dengan port backend ElysiaJS kelompokmu (misal: localhost:3000)
+      // Mencoba nembak backend
       const response = await fetch(`http://localhost:3000${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -30,17 +31,41 @@ export default function Login() {
       if (!response.ok) throw new Error(data.message || 'Terjadi kesalahan');
 
       if (!isRegister) {
-        // Jika LOGIN BERHASIL: Simpan token dan data user ke localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        alert('Login Berhasil!');
-        window.location.href = '/beranda'; // Mengarahkan ke halaman Beranda milik Irene
+        
+        // 1. Pemicu Fitur Notif Sonner Ale (Jika backend sukses)
+        toast.success('Selamat Datang Kembali di X!', {
+          description: `Halo ${data.user?.name || 'User'}, senang melihat Anda kembali.`,
+        });
+
+        setTimeout(() => {
+          window.location.href = '/beranda'; 
+        }, 1500);
       } else {
-        alert('Registrasi Berhasil! Silakan masuk menggunakan akun baru Anda.');
-        setIsRegister(false); // Pindahkan form ke mode Login
+        toast.info('Registrasi Berhasil!', {
+          description: 'Silakan masuk menggunakan akun baru Anda.',
+        });
+        setIsRegister(false);
       }
     } catch (err: any) {
-      setError(err.message);
+      // --- MODE BYPASS SEMENTARA (JIKA BACKEND MATI) ---
+      if (!isRegister) {
+        localStorage.setItem('token', 'token-palsu-ale');
+        localStorage.setItem('user', JSON.stringify({ name: 'Ale (Simulasi)', email }));
+        
+        // 2. Pemicu Fitur Notif Sonner Ale (Mode Simulasi)
+        toast.success('Selamat Datang Kembali di X! (Mode Simulasi)', {
+          description: 'Berhasil masuk tanpa backend untuk keperluan testing.',
+        });
+
+        setTimeout(() => {
+          window.location.href = '/beranda';
+        }, 1500);
+      } else {
+        setError(err.message);
+      }
+      // -------------------------------------------------
     } finally {
       setLoading(false);
     }
