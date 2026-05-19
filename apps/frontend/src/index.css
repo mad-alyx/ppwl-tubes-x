@@ -1,5 +1,9 @@
+/* apps/frontend/src/index.css */
+
+/* 1. Inisialisasi Utama Engine Tailwind CSS v4 dari Nabil */
 @import "tailwindcss";
 
+/* 2. Setelan Font Resmi Twitter/X (Chirp) dari Kelompokmu */
 @font-face {
   font-family: "Chirp";
   src: url("/fonts/Chirp-Regular.80fda27a.woff2") format("woff2");
@@ -32,15 +36,26 @@
   font-display: swap;
 }
 
-/* Pasang font Chirp sebagai prioritas utama secara global */
+/* 3. Terapkan Font Chirp & Tema Gelap Wajib X secara Global */
 *, html, body {
   font-family: "Chirp", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
-/* Setelan tema gelap wajib X */
 body {
-  background-color: #000000 !important;
-  color: #e7e9ea !important;
+  margin: 0;
+  padding: 0;
+  background-color: #000000 !important; /* Hitam Pekat khas X */
+  color: #e7e9ea !important; /* Putih Abu-abu khas X */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tambahan Utility: Sembunyikan scrollbar bawaan untuk kenyamanan timeline X */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 
