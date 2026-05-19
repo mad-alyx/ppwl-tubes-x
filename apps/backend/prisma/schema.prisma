@@ -1,13 +1,104 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// apps/backend/prisma/schema.prisma
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String?  
+  googleId  String?  @unique
+  
+  // KOLOM PROFIL BARU
+  avatarUrl String?
+  bannerUrl String?
+  bio       String?
+  location  String?
+  website   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  commentLikes  CommentLike[]
+  
+  notifications         Notification[] @relation("UserNotifications")
+  triggeredNotifications Notification[] @relation("TriggeredNotifications")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  content   String
+  imageUrl  String?  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  comments  Comment[]
+  likes     Like[]
+  notifications Notification[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  imageUrl  String?  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  parentId  String?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+  likes     CommentLike[]
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  @@unique([userId, postId]) 
+}
+
+model CommentLike {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  commentId String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  @@unique([userId, commentId])
+}
+
+model Notification {
+  id            String   @id @default(uuid())
+  type          String   
+  isRead        Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  userId        String
+  user          User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  triggeredById String
+  triggeredBy   User     @relation("TriggeredNotifications", fields: [triggeredById], references: [id], onDelete: Cascade)
+  postId        String?
+  post          Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
