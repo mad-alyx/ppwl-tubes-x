@@ -1,6 +1,6 @@
 // apps/frontend/src/components/OnboardingModal.tsx
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface OnboardingModalProps {
   onComplete: (data: any) => void;
@@ -46,7 +46,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#242d34]/60 backdrop-blur-sm">
-      <div className="w-full max-w-[600px] bg-black text-[#E7E9EA] rounded-2xl p-8 flex flex-col relative border border-gray-800 min-h-[500px]">
+      <div className="w-full max-w-150 bg-black text-[#E7E9EA] rounded-2xl p-8 flex flex-col relative border border-gray-800 min-h-125">
         <XLogo />
 
         <div className="flex-1 flex flex-col overflow-y-auto pr-2 custom-scrollbar">
@@ -58,7 +58,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
               
               <div className="flex gap-4">
                 <select
-                  className="flex-[2] p-4 bg-transparent border border-gray-700 rounded focus:border-[#1D9BF0] outline-none appearance-none"
+                  className="flex-2 p-4 bg-transparent border border-gray-700 rounded focus:border-[#1D9BF0] outline-none appearance-none"
                   value={formData.birthMonth}
                   onChange={(e) => setFormData({ ...formData, birthMonth: e.target.value })}
                 >
