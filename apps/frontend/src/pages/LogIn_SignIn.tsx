@@ -102,9 +102,9 @@ export default function Login() {
         </div>
 
         <div className="flex items-center my-5">
-          <hr className="flex-grow border-[#2F3336]" />
+          <hr className="grow border-[#2F3336]" />
           <span className="px-3 text-xs text-[#71767B] uppercase font-bold tracking-wider">atau</span>
-          <hr className="flex-grow border-[#2F3336]" />
+          <hr className="grow border-[#2F3336]" />
         </div>
 
         {/* Form Login / Register Manual */}
