@@ -3,7 +3,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import Login from "./pages/Login";
-import Timeline from "./pages/Timeline";
+import Beranda from "./pages/Beranda"; // 1. DIUBAH: Import Beranda, bukan Timeline lagi
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem("jwt_token");
@@ -19,11 +19,34 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         
+        {/* 2. BARU: Jika user mengakses "/", otomatis di-redirect ke "/beranda" agar menu Home menyala */}
+        <Route path="/" element={<Navigate to="/beranda" replace />} />
+        
+        {/* 3. BARU: Daftarkan route untuk halaman Beranda kamu */}
         <Route 
-          path="/" 
+          path="/beranda" 
           element={
             <ProtectedRoute>
-              <Timeline />
+              <Beranda />
+            </ProtectedRoute>
+          } 
+        />
+
+        {/* 4. JAGA-JAGA: Daftarkan juga path notifikasi dan profil ke Beranda jika kamu mengendalikan view-nya dari sana */}
+        <Route 
+          path="/notifikasi" 
+          element={
+            <ProtectedRoute>
+              <Beranda />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/profil" 
+          element={
+            <ProtectedRoute>
+              <Beranda />
             </ProtectedRoute>
           } 
         />
@@ -42,10 +65,9 @@ export default function App() {
                   
                   if (isNewUser === "true") {
                     localStorage.setItem("needs_onboarding", "true");
-                    // Arahkan kembali ke halaman Login untuk menampilkan Pop-up Onboarding
                     window.location.href = "/login";
                   } else {
-                    // Jika pengguna lama, langsung masuk ke Beranda
+                    // Diarahkan ke root, yang nanti otomatis ke /beranda
                     window.location.href = "/";
                   }
                 }
