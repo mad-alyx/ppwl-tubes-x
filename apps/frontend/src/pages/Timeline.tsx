@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchApi } from "../utils/api";
+import ViewFormPostingan from "../components/nayla/ViewFormPostingan";
 import { 
   Home, Search, Bell, Mail, User, MessageCircle, Heart, LogOut,
   Image as ImageIcon, BarChart2, Smile, CalendarClock, MapPin, Globe, ArrowLeft, X, MoreHorizontal, Edit, Trash2, ChevronRight, Camera
@@ -18,6 +19,8 @@ const EMOJI_LIST = [
   '🤓','😈','👿','👻','💀','☠️','👽','👾','🤖','💩','❤️','🔥','✨','💯','👍','👎','✌️','🤞','🙏','👏','🙌'
 ];
 
+
+
 export default function Timeline() {
   const navigate = useNavigate();
   
@@ -32,11 +35,6 @@ export default function Timeline() {
   const [error, setError] = useState("");
   const [userData, setUserData] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [newPostContent, setNewPostContent] = useState("");
-  const [postImage, setPostImage] = useState<string | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const postImageInputRef = useRef<HTMLInputElement>(null);
 
   const [replyingTo, setReplyingTo] = useState<any>(null); 
   const [replyContent, setReplyContent] = useState("");
@@ -126,16 +124,12 @@ export default function Timeline() {
   };
 
   const handleEmojiSelect = (emoji: string) => {
-    if (activeEmojiPicker === "post") setNewPostContent(prev => prev + emoji);
-    else if (activeEmojiPicker === "reply") setReplyContent(prev => prev + emoji);
+    if (activeEmojiPicker === "reply") setReplyContent(prev => prev + emoji);
     else if (activeEmojiPicker === "compose") setComposeContent(prev => prev + emoji);
   };
 
-  const MAX_CHARS = 280;
-  const circleRadius = 10;
-  const circleCircumference = 2 * Math.PI * circleRadius;
-  const charCount = newPostContent.length;
-  const composeCharCount = composeContent.length;
+const MAX_CHARS = 280;
+const composeCharCount = composeContent.length;
 
   const handleInputResize = (e: React.ChangeEvent<HTMLTextAreaElement>, ref: React.RefObject<HTMLTextAreaElement | null>, setter: any) => {
     setter(e.target.value);
@@ -145,33 +139,29 @@ export default function Timeline() {
     }
   };
 
-  const handlePostSubmit = async (e: React.FormEvent, isModal = false) => {
+  const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const content = isModal ? composeContent : newPostContent;
-    const imageUrl = isModal ? composeImage : postImage;
-    const currentLimit = isModal ? composeCharCount : charCount;
-    
-    if ((!content.trim() && !imageUrl) || isSubmitting || currentLimit > MAX_CHARS) return;
-    
+    if ((!composeContent.trim() && !composeImage) || isSubmitting || composeCharCount > MAX_CHARS) return;
+
     setIsSubmitting(true);
     setError("");
     try {
       if (composeEditId) {
         const endpoint = composeEditType === "post" ? `/posts/${composeEditId}` : `/posts/comments/${composeEditId}`;
-        await fetchApi(endpoint, { method: "PUT", body: JSON.stringify({ content, imageUrl: imageUrl || undefined }) });
+        await fetchApi(endpoint, { method: "PUT", body: JSON.stringify({ content: composeContent, imageUrl: composeImage || undefined }) });
       } else {
-        await fetchApi("/posts", { method: "POST", body: JSON.stringify({ content, imageUrl: imageUrl || undefined }) });
+        await fetchApi("/posts", { method: "POST", body: JSON.stringify({ content: composeContent, imageUrl: composeImage || undefined }) });
       }
-
-      if (isModal) { setComposeContent(""); setComposeImage(null); setIsComposeOpen(false); setComposeEditId(null); setComposeEditType(null); } 
-      else { setNewPostContent(""); setPostImage(null); }
-    } catch (err: any) { setError(err.message); } 
+      setComposeContent(""); 
+      setComposeImage(null); 
+      setIsComposeOpen(false); 
+      setComposeEditId(null); 
+      setComposeEditType(null);
+    } catch (err: any) { setError(err.message); }
     finally {
-      if (isModal) { setIsComposeOpen(false); setComposeContent(""); setComposeImage(null); }
       setActiveEmojiPicker(null);
-      if (textareaRef.current) textareaRef.current.style.height = 'auto';
       setIsSubmitting(false);
-      loadTimeline(); 
+      loadTimeline();
       if (currentView === "profile") loadProfile();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -364,7 +354,7 @@ export default function Timeline() {
                 <button onClick={() => { setIsComposeOpen(false); setComposeContent(""); setComposeImage(null); setComposeEditId(null); setComposeEditType(null); setActiveEmojiPicker(null); }} className="p-2 hover:bg-white/10 rounded-full transition"><X className="w-5 h-5"/></button>
                 {composeEditId && <h2 className="font-bold text-lg">Edit {composeEditType === "post" ? "Postingan" : "Komentar"}</h2>}
               </div>
-              <button onClick={(e) => handlePostSubmit(e, true)} disabled={(!composeContent.trim() && !composeImage) || isSubmitting || composeCharCount > MAX_CHARS} className="bg-[#1D9BF0] text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50 transition">{composeEditId ? "Simpan" : "Posting"}</button>
+              <button onClick={(e) => handlePostSubmit(e)} disabled={(!composeContent.trim() && !composeImage) || isSubmitting || composeCharCount > MAX_CHARS} className="bg-[#1D9BF0] text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50 transition">{composeEditId ? "Simpan" : "Posting"}</button>
             </div>
             <div className="p-4 flex gap-3 overflow-y-auto max-h-[80vh]">
                <div className="w-10 h-10 bg-gray-700 rounded-full overflow-hidden shrink-0">{userData?.avatarUrl ? <img src={userData.avatarUrl} alt="Avatar" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center font-bold">{userData?.name?.charAt(0) || "?"}</div>}</div>
@@ -588,30 +578,47 @@ export default function Timeline() {
                 </div>
               </div>
 
-              <div className="p-4 border-b border-gray-800 flex gap-3">
-                <div className="w-10 h-10 bg-gray-700 rounded-full overflow-hidden shrink-0 cursor-pointer" onClick={() => switchView("profile")}>{userData?.avatarUrl ? <img src={userData.avatarUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center font-bold">{userData?.name?.charAt(0) || "?"}</div>}</div>
-                <form onSubmit={(e) => handlePostSubmit(e, false)} className="flex flex-col flex-1 w-full">
-                  <div className="py-2"><textarea ref={textareaRef} className="w-full bg-transparent outline-none resize-none text-xl placeholder-gray-500 overflow-hidden" placeholder="Apa yang sedang terjadi?" rows={1} value={newPostContent} onChange={(e) => handleInputResize(e, textareaRef, setNewPostContent)} /></div>
-                  {postImage && (
-                    <div className="relative mt-2 mb-2">
-                      <img src={postImage} className="rounded-2xl max-h-96 w-full object-cover border border-gray-800" />
-                      <button type="button" onClick={() => setPostImage(null)} className="absolute top-2 right-2 bg-black/70 p-1.5 rounded-full hover:bg-black transition"><X className="w-5 h-5"/></button>
-                    </div>
-                  )}
-                  <div className="flex justify-between items-center mt-1 relative">
-                    <div className="flex text-[#1D9BF0] -ml-2">
-                       <input type="file" accept="image/*" hidden ref={postImageInputRef} onChange={(e) => handleImageUpload(e, setPostImage)} />
-                       <button type="button" onClick={() => postImageInputRef.current?.click()} className="p-2 hover:bg-[#1D9BF0]/10 rounded-full transition"><ImageIcon className="w-5 h-5" /></button>
-                       
-                       <div className="relative">
-                         <button type="button" onClick={() => setActiveEmojiPicker(activeEmojiPicker === "post" ? null : "post")} className="p-2 hover:bg-[#1D9BF0]/10 rounded-full transition"><Smile className="w-5 h-5" /></button>
-                         {activeEmojiPicker === "post" && <EmojiDropdown target="post" />}
-                       </div>
-                    </div>
-                    <button type="submit" disabled={(!newPostContent.trim() && !postImage) || isSubmitting || charCount > MAX_CHARS} className="bg-[#1D9BF0] text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50 transition">Posting</button>
-                  </div>
-                </form>
-              </div>
+              <ViewFormPostingan
+                userData={userData}
+                content={composeContent}             
+                image={composeImage}                 
+                showEmojiPicker={activeEmojiPicker === "compose"}
+                isSubmitting={isSubmitting}
+                textareaRef={composeTextareaRef}
+                imageInputRef={composeImageInputRef}
+                onAvatarClick={() => switchView("profile")}
+                onContentChange={(e) => handleInputResize(e, composeTextareaRef, setComposeContent)}
+                onImageUpload={(e) => handleImageUpload(e, setComposeImage)}
+                onImageRemove={() => setComposeImage(null)}
+                onEmojiSelect={(emoji) => setComposeContent(prev => prev + emoji)}
+                onToggleEmojiPicker={() => setActiveEmojiPicker(activeEmojiPicker === "compose" ? null : "compose")}
+                onCloseEmojiPicker={() => setActiveEmojiPicker(null)}
+
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (!composeContent.trim() && !composeImage) return;
+                  
+                  setIsSubmitting(true);
+                  try {
+                    await fetchApi("/posts", {
+                      method: "POST",
+                      body: JSON.stringify({ 
+                        content: composeContent, 
+                        imageUrl: composeImage || undefined 
+                      }),
+                    });
+                    // Reset form setelah berhasil posting
+                    setComposeContent("");
+                    setComposeImage(null);
+                    loadTimeline();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  } catch (err: any) {
+                    setError(err.message);
+                  } finally {
+                    setIsSubmitting(false);
+                  }
+                }}
+              />
 
               <div>
                 {posts.length === 0 ? (
