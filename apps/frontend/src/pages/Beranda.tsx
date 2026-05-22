@@ -105,7 +105,7 @@ export default function Beranda() {
     const storedUser = localStorage.getItem("user_data");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
-      console.log("Data user dari local storage:", parsedUser);
+      console.log("User data from local storage:", parsedUser);
       
       // Mengantisipasi struktur data login Google yang menggunakan nama variabel berbeda
       if (!parsedUser.name && parsedUser.displayName) {
@@ -176,7 +176,7 @@ export default function Beranda() {
   };
 
   const handleDelete = async (id: string, type: "post" | "comment") => {
-    if (!window.confirm("Yakin ingin menghapus?")) return;
+    if (!window.confirm("Are you sure you want to delete?")) return;
     try {
       const endpoint = type === "post" ? `/posts/${id}` : `/posts/comments/${id}`;
       await fetchApi(endpoint, { method: "DELETE" });
@@ -211,7 +211,7 @@ export default function Beranda() {
         {isOpen && (
           <div className="absolute right-0 top-8 bg-black border border-gray-700 rounded-xl shadow-lg shadow-white/10 z-20 w-36 overflow-hidden">
             <button onClick={(e) => { e.stopPropagation(); openEditModal(item, type); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition text-sm font-bold text-left"><Edit className="w-4 h-4"/> Edit</button>
-            <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id, type); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition text-sm font-bold text-red-500 text-left"><Trash2 className="w-4 h-4"/> Hapus</button>
+            <button onClick={(e) => { e.stopPropagation(); handleDelete(item.id, type); }} className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition text-sm font-bold text-red-500 text-left"><Trash2 className="w-4 h-4"/> Delete</button>
           </div>
         )}
       </div>
@@ -221,7 +221,7 @@ export default function Beranda() {
   const EmojiDropdown = () => (
     <div className="absolute top-12 left-0 z-50 bg-[#16181C] border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.1)] p-3 w-[300px]">
       <div className="flex justify-between items-center mb-2 px-1 border-b border-gray-800 pb-2">
-        <span className="text-sm font-bold text-gray-300">Pilih Emoji</span>
+        <span className="text-sm font-bold text-gray-300">Choose Emoji</span>
         <button type="button" onClick={() => setActiveEmojiPicker(null)} className="text-gray-500 hover:text-white transition bg-gray-800 rounded-full p-1"><X className="w-4 h-4"/></button>
       </div>
       <div className="flex flex-wrap gap-1 max-h-48 overflow-y-auto">
@@ -244,16 +244,16 @@ export default function Beranda() {
             <div className="flex items-center justify-between px-4 py-2 border-b border-gray-800">
               <div className="flex items-center gap-4">
                 <button onClick={() => { setIsComposeOpen(false); setComposeContent(""); setComposeImage(null); setComposeEditId(null); setComposeEditType(null); setActiveEmojiPicker(null); }} className="p-2 hover:bg-white/10 rounded-full transition"><X className="w-5 h-5"/></button>
-                {composeEditId && <h2 className="font-bold text-lg">Edit {composeEditType === "post" ? "Postingan" : "Komentar"}</h2>}
+                {composeEditId && <h2 className="font-bold text-lg">Edit {composeEditType === "post" ? "Post" : "Comment"}</h2>}
               </div>
-              <button onClick={(e) => handlePostSubmit(e, true)} disabled={(!composeContent.trim() && !composeImage) || isSubmitting || composeCharCount > MAX_CHARS} className="bg-[#1D9BF0] text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50 transition">{composeEditId ? "Simpan" : "Posting"}</button>
+              <button onClick={(e) => handlePostSubmit(e, true)} disabled={(!composeContent.trim() && !composeImage) || isSubmitting || composeCharCount > MAX_CHARS} className="bg-[#1D9BF0] text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50 transition">{composeEditId ? "Save" : "Post"}</button>
             </div>
             <div className="p-4 flex gap-3 overflow-y-auto max-h-[80vh]">
               <div className="w-10 h-10 bg-gray-700 rounded-full overflow-hidden shrink-0 flex items-center justify-center">
                 {userData?.avatarUrl ? <img src={userData.avatarUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center font-bold">{userData?.name?.charAt(0) || "?"}</div>}
               </div>
               <div className="flex flex-col flex-1 gap-3 w-full">
-                <textarea ref={composeTextareaRef} className="w-full bg-transparent outline-none resize-none text-xl placeholder-gray-500 pt-2" placeholder="Apa yang sedang terjadi?" rows={4} autoFocus value={composeContent} onChange={(e) => handleInputResize(e, composeTextareaRef, setComposeContent)} />
+                <textarea ref={composeTextareaRef} className="w-full bg-transparent outline-none resize-none text-xl placeholder-gray-500 pt-2" placeholder="What is happening?!" rows={4} autoFocus value={composeContent} onChange={(e) => handleInputResize(e, composeTextareaRef, setComposeContent)} />
                 {composeImage && (
                   <div className="relative">
                     <img src={composeImage} className="rounded-2xl max-h-80 w-full object-cover" />
@@ -321,7 +321,7 @@ export default function Beranda() {
             </div>
               <div className=" text-sm">
                 <p className="font-bold text-white">
-                  {userData?.name || userData?.displayName || "Pengguna"}
+                  {userData?.name || userData?.displayName || "User"}
                 </p>
                 <p className="text-[#71767B]">
                   @{userData?.username || (userData?.name || userData?.displayName)?.replace(/\s+/g, '').toLowerCase() || "user"}
@@ -336,7 +336,7 @@ export default function Beranda() {
       <main className="flex-1 border-r border-[#2F3336] max-w-[600px] min-h-screen mb-[60px] md:mb-0">
         {error && (
           <div className="m-4 p-4 text-white bg-[#F4212E]/20 border border-[#F4212E]/40 rounded-xl relative">
-            <div className="flex gap-2"><span className="font-bold text-[#F4212E]">Sistem:</span><p className="text-[#E7E9EA]">{error}</p></div>
+            <div className="flex gap-2"><span className="font-bold text-[#F4212E]">System:</span><p className="text-[#E7E9EA]">{error}</p></div>
             <button onClick={() => setError("")} className="absolute top-3 right-4 text-gray-500 hover:text-white transition">✕</button>
           </div>
         )}
