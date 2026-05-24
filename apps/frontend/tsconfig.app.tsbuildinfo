@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/onboardingmodal.tsx","./src/pages/beranda.tsx","./src/pages/detailpostingan.tsx","./src/pages/editprofile.tsx","./src/pages/formpostingan.tsx","./src/pages/login.tsx","./src/pages/notifikasi.tsx","./src/pages/timeline.tsx","./src/utils/api.ts"],"version":"6.0.3"}
