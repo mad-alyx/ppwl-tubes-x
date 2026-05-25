@@ -2,7 +2,7 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
-import Login from "./pages/LogIn_SignIn"; // Menggunakan Login Google Auth kelompokmu
+import Login from "./pages/Login"; // Menggunakan Login Google Auth kelompokmu
 import Beranda from "./pages/Beranda";
 import { Toaster } from "sonner";
 
