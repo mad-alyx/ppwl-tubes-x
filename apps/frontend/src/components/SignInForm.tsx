@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // Komponen form register 
 
 interface SignInFormProps {
   email: string;

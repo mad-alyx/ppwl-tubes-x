@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // Komponen form login 
 import { GoogleLogin } from '@react-oauth/google';
 
 interface LoginFormProps {
