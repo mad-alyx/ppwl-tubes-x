@@ -6,7 +6,7 @@ import {
   Image as ImageIcon, Smile, CalendarClock, MapPin, Globe,
   ArrowLeft, X, MoreHorizontal, Edit, Trash2, ChevronRight, Camera
 } from "lucide-react";
-import ViewBeranda from "../components/ViewBeranda";
+import ViewBeranda from "../components/irene/ViewBeranda";
 
 type ViewMode = "home" | "notifications" | "detail" | "profile";
 
