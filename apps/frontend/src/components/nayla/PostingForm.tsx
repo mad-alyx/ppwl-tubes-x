@@ -5,10 +5,10 @@ type Props = {
   userData: any;
   newPostContent: string;
   setNewPostContent: (v: string) => void;
-  textareaRef: React.RefObject<HTMLTextAreaElement> | null;
+  textareaRef: React.RefObject<HTMLTextAreaElement | null> | null;
   handlePostSubmit: (e: React.FormEvent, isModal?: boolean) => Promise<void>;
   postImage: string | null;
-  postImageInputRef: React.RefObject<HTMLInputElement> | null;
+  postImageInputRef: React.RefObject<HTMLInputElement | null> | null;
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string | null>>) => void;
   setPostImage: (v: string | null) => void;
   activeEmojiPicker: "post" | "reply" | "compose" | null;
