@@ -1,5 +1,3 @@
-// apps/frontend/src/components/irene/HomeView.tsx
-
 import React, { useRef } from "react";
 import { Image as ImageIcon, Smile, X, MessageCircle, Heart } from "lucide-react";
 
@@ -11,7 +9,7 @@ const EMOJI_LIST = [
   '🤓','😈','👿','👻','💀','☠️','👽','👾','🤖','💩','❤️','🔥','✨','💯','👍','👎','✌️','🤞','🙏','👏','🙌'
 ];
 
-interface HomeViewProps {
+interface ViewBerandaProps {
   posts: any[];
   userData: any;
   newPostContent: string;
@@ -35,12 +33,12 @@ const MAX_CHARS = 280;
 const circleRadius = 10;
 const circleCircumference = 2 * Math.PI * circleRadius;
 
-export default function HomeView({
+export default function ViewBeranda({
   posts, userData, newPostContent, setNewPostContent,
   postImage, setPostImage, isSubmitting, activeEmojiPicker, setActiveEmojiPicker,
   handlePostSubmit, handleImageUpload, handleInputResize,
   handleLike, loadPostDetailAndComments, switchView, setReplyingTo, ItemMenu,
-}: HomeViewProps) {
+}: ViewBerandaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const postImageInputRef = useRef<HTMLInputElement>(null);
   const charCount = newPostContent.length;
@@ -48,7 +46,7 @@ export default function HomeView({
   const EmojiDropdown = () => (
     <div className="absolute top-12 left-0 z-50 bg-[#16181C] border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.1)] p-3 w-[300px]">
       <div className="flex justify-between items-center mb-2 px-1 border-b border-gray-800 pb-2">
-        <span className="text-sm font-bold text-gray-300">Choose Emoji</span>
+        <span className="text-sm font-bold text-gray-300">Pilih Emoji</span>
         <button type="button" onClick={() => setActiveEmojiPicker(null)} className="text-gray-500 hover:text-white transition bg-gray-800 rounded-full p-1"><X className="w-4 h-4"/></button>
       </div>
       <div className="flex flex-wrap gap-1 max-h-48 overflow-y-auto">
@@ -63,13 +61,13 @@ export default function HomeView({
     <>
       {/* Header */}
       <div className="sticky top-0 bg-black/80 backdrop-blur z-10 border-b border-gray-800">
-        <h2 className="text-xl font-bold p-4 pb-0">Home</h2>
+        <h2 className="text-xl font-bold p-4 pb-0">Beranda</h2>
         <div className="flex w-full mt-2">
           <div className="flex-1 py-3 text-center font-bold relative cursor-pointer hover:bg-white/5 transition">
-            For you
+            Untuk Anda
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-1 bg-[#1D9BF0] rounded-full"></div>
           </div>
-          <div className="flex-1 py-3 text-center text-gray-500 font-bold opacity-50 hover:bg-white/5 transition cursor-pointer">Following</div>
+          <div className="flex-1 py-3 text-center text-gray-500 font-bold opacity-50 hover:bg-white/5 transition cursor-pointer">Mengikuti</div>
         </div>
       </div>
 
@@ -80,7 +78,7 @@ export default function HomeView({
         </div>
         <form onSubmit={(e) => handlePostSubmit(e, false)} className="flex flex-col flex-1 w-full">
           <div className="py-2">
-            <textarea ref={textareaRef} className="w-full bg-transparent outline-none resize-none text-xl placeholder-gray-500 overflow-hidden" placeholder="What is happening?!" rows={1} value={newPostContent} onChange={(e) => handleInputResize(e, textareaRef, setNewPostContent)} />
+            <textarea ref={textareaRef} className="w-full bg-transparent outline-none resize-none text-xl placeholder-gray-500 overflow-hidden" placeholder="Apa yang sedang terjadi?" rows={1} value={newPostContent} onChange={(e) => handleInputResize(e, textareaRef, setNewPostContent)} />
           </div>
           {postImage && (
             <div className="relative mt-2 mb-2">
@@ -112,7 +110,7 @@ export default function HomeView({
                   )}
                 </svg>
               )}
-              <button type="submit" disabled={(!newPostContent.trim() && !postImage) || isSubmitting || charCount > MAX_CHARS} className="bg-[#1D9BF0] text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50 transition">Post</button>
+              <button type="submit" disabled={(!newPostContent.trim() && !postImage) || isSubmitting || charCount > MAX_CHARS} className="bg-[#1D9BF0] text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50 transition">Posting</button>
             </div>
           </div>
         </form>
@@ -121,7 +119,7 @@ export default function HomeView({
       {/* Daftar Postingan */}
       <div>
         {posts.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">No posts here yet. Be the first to post!</div>
+          <div className="p-8 text-center text-gray-500">Belum ada postingan dari siapa pun di sini. Ayo jadilah yang pertama!</div>
         ) : posts.map((post) => (
           <div key={post.id} onClick={() => loadPostDetailAndComments(post.id)} className="p-4 border-b border-gray-800 hover:bg-white/5 transition cursor-pointer">
             <div className="flex gap-3">
