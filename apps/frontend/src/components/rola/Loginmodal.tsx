@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { fetchApi } from "../../utils/api";
-import { XLogo } from "./XLogo";
+import { Xlogo } from "./Xlogo";
 
 const isValidEmailFormat = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -51,7 +51,7 @@ export const LoginModal = ({ onSuccess, onClose, onSwitchToRegister }: LoginModa
         >
           ✕
         </button>
-        <XLogo className="h-8 mx-auto mb-8" />
+        <Xlogo className="h-8 mx-auto mb-8" />
 
         {/* TAHAP 1: Identifier Awal */}
         {loginStep === 1 && (

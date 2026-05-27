@@ -281,7 +281,7 @@ export default function Timeline() {
     navigate("/login");
   };
 
-  const XLogo = () => <svg viewBox="0 0 24 24" aria-hidden="true" className="w-7 h-7 fill-white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>;
+  const Xlogo = () => <svg viewBox="0 0 24 24" aria-hidden="true" className="w-7 h-7 fill-white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>;
 
   const ItemMenu = ({ item, type }: { item: any, type: "post"|"comment" }) => {
     if (item.authorId !== userData?.id) return null;
@@ -386,7 +386,7 @@ export default function Timeline() {
         
         <header className="w-[88px] xl:w-[275px] flex flex-col justify-between py-4 px-2 xl:px-4 h-screen sticky top-0">
           <div className="flex flex-col items-center xl:items-start gap-2">
-            <div onClick={() => switchView("home")} className="p-3 w-max hover:bg-white/10 rounded-full cursor-pointer transition mb-2"><XLogo /></div>
+            <div onClick={() => switchView("home")} className="p-3 w-max hover:bg-white/10 rounded-full cursor-pointer transition mb-2"><Xlogo /></div>
             <nav className="flex flex-col gap-1 w-full">
               <div onClick={() => switchView("home")} className={`p-3 w-max xl:w-fit flex items-center gap-5 hover:bg-white/10 rounded-full cursor-pointer transition ${currentView === "home" || currentView === "detail" ? "font-bold" : ""}`}><Home className="w-7 h-7" /><span className="hidden xl:inline text-xl">Beranda</span></div>
               <div className="p-3 w-max xl:w-fit flex items-center gap-5 hover:bg-white/10 rounded-full cursor-pointer transition opacity-50"><Search className="w-7 h-7" /><span className="hidden xl:inline text-xl">Jelajahi</span></div>
