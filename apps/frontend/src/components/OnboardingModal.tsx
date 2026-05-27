@@ -38,7 +38,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
     });
   };
 
-  const XLogo = () => (
+  const Xlogo = () => (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="h-8 fill-white mx-auto mb-6">
       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
     </svg>
@@ -47,7 +47,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#242d34]/60 backdrop-blur-sm">
       <div className="w-full max-w-[600px] bg-black text-[#E7E9EA] rounded-2xl p-8 flex flex-col relative border border-gray-800 min-h-[500px]">
-        <XLogo />
+        <Xlogo />
 
         <div className="flex-1 flex flex-col overflow-y-auto pr-2 custom-scrollbar">
           {/* TAHAP 1: Tanggal Lahir */}

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import XLogo from "../components/rola/XLogo";
+import Xlogo from "../components/rola/XLogo";
 import { AuthFlowModal } from "../components//rola/Authflowmodal";
 import { LoginModal } from "../components/rola/Loginmodal";
 
@@ -54,7 +54,7 @@ export default function Login() {
       <div className="flex flex-col lg:flex-row min-h-screen bg-black text-[#E7E9EA]">
         {/* Kolom Kiri: Logo */}
         <div className="flex-1 flex items-center justify-center p-8 lg:p-0">
-          <XLogo className="h-16 lg:h-[380px] max-w-full" />
+          <Xlogo className="h-16 lg:h-[380px] max-w-full" />
         </div>
 
         {/* Kolom Kanan: CTA */}
