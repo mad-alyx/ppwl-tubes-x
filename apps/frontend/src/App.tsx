@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/LogIn_SignIn';
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Halaman utama (/) langsung menampilkan login */}
+        <Route path="/" element={<Login />} />
+        
+        {/* Jika user mengetik url aneh-aneh, paksa balik ke login */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+=======
 // src/App.tsx
 
 import React from "react";
@@ -351,5 +366,6 @@ export default function App() {
         />
       </Routes>
     </BrowserRouter>
+>>>>>>> bace2427031ceb1e0941356eb1f5c86eb9bbd9e1
   );
 }
