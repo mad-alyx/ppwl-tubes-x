@@ -12,9 +12,9 @@ type Props = {
   editProfileWebsite: string;
   setEditProfileWebsite: (v: string) => void;
   editProfileImage: string | null;
-  setEditProfileImage: (v: string | null) => void;
+  setEditProfileImage: React.Dispatch<React.SetStateAction<string | null>>;
   editProfileBanner: string | null;
-  setEditProfileBanner: (v: string | null) => void;
+  setEditProfileBanner: React.Dispatch<React.SetStateAction<string | null>>;
   isSubmitting: boolean;
   handleProfileSave: (e: React.FormEvent) => Promise<void>;
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string | null>>) => void;
