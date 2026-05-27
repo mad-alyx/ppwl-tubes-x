@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { fetchApi } from "../../utils/api";
-import XLogo from "./XLogo";
+import XLogo from "./Xlogo";
 
 type FlowType = "google" | "manual";
 
