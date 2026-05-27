@@ -25,6 +25,8 @@ const EMOJI_LIST = [
   '🤓','😈','👿','👻','💀','☠️','👽','👾','🤖','💩','❤️','🔥','✨','💯','👍','👎','✌️','🤞','🙏','👏','🙌'
 ];
 
+
+
 export default function Timeline() {
   const navigate = useNavigate();
   
@@ -39,11 +41,6 @@ export default function Timeline() {
   const [error, setError] = useState("");
   const [userData, setUserData] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [newPostContent, setNewPostContent] = useState("");
-  const [postImage, setPostImage] = useState<string | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const postImageInputRef = useRef<HTMLInputElement>(null);
 
   const [replyingTo, setReplyingTo] = useState<any>(null); 
   const [replyContent, setReplyContent] = useState("");
@@ -69,6 +66,12 @@ export default function Timeline() {
 
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [activeEmojiPicker, setActiveEmojiPicker] = useState<"post" | "reply" | "compose" | null>(null);
+
+  const [newPostContent, setNewPostContent] = useState("");
+  const [postImage, setPostImage] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const postImageInputRef = useRef<HTMLInputElement>(null);
+  const charCount = newPostContent.length;
 
   const loadTimeline = async () => {
     try {
@@ -133,16 +136,12 @@ export default function Timeline() {
   };
 
   const handleEmojiSelect = (emoji: string) => {
-    if (activeEmojiPicker === "post") setNewPostContent(prev => prev + emoji);
-    else if (activeEmojiPicker === "reply") setReplyContent(prev => prev + emoji);
+    if (activeEmojiPicker === "reply") setReplyContent(prev => prev + emoji);
     else if (activeEmojiPicker === "compose") setComposeContent(prev => prev + emoji);
   };
 
-  const MAX_CHARS = 280;
-  const circleRadius = 10;
-  const circleCircumference = 2 * Math.PI * circleRadius;
-  const charCount = newPostContent.length;
-  const composeCharCount = composeContent.length;
+const MAX_CHARS = 280;
+const composeCharCount = composeContent.length;
 
   const handleInputResize = (e: React.ChangeEvent<HTMLTextAreaElement>, ref: React.RefObject<HTMLTextAreaElement | null>, setter: any) => {
     setter(e.target.value);
@@ -152,33 +151,29 @@ export default function Timeline() {
     }
   };
 
-  const handlePostSubmit = async (e: React.FormEvent, isModal = false) => {
+  const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const content = isModal ? composeContent : newPostContent;
-    const imageUrl = isModal ? composeImage : postImage;
-    const currentLimit = isModal ? composeCharCount : charCount;
-    
-    if ((!content.trim() && !imageUrl) || isSubmitting || currentLimit > MAX_CHARS) return;
-    
+    if ((!composeContent.trim() && !composeImage) || isSubmitting || composeCharCount > MAX_CHARS) return;
+
     setIsSubmitting(true);
     setError("");
     try {
       if (composeEditId) {
         const endpoint = composeEditType === "post" ? `/posts/${composeEditId}` : `/posts/comments/${composeEditId}`;
-        await fetchApi(endpoint, { method: "PUT", body: JSON.stringify({ content, imageUrl: imageUrl || undefined }) });
+        await fetchApi(endpoint, { method: "PUT", body: JSON.stringify({ content: composeContent, imageUrl: composeImage || undefined }) });
       } else {
-        await fetchApi("/posts", { method: "POST", body: JSON.stringify({ content, imageUrl: imageUrl || undefined }) });
+        await fetchApi("/posts", { method: "POST", body: JSON.stringify({ content: composeContent, imageUrl: composeImage || undefined }) });
       }
-
-      if (isModal) { setComposeContent(""); setComposeImage(null); setIsComposeOpen(false); setComposeEditId(null); setComposeEditType(null); } 
-      else { setNewPostContent(""); setPostImage(null); }
-    } catch (err: any) { setError(err.message); } 
+      setComposeContent(""); 
+      setComposeImage(null); 
+      setIsComposeOpen(false); 
+      setComposeEditId(null); 
+      setComposeEditType(null);
+    } catch (err: any) { setError(err.message); }
     finally {
-      if (isModal) { setIsComposeOpen(false); setComposeContent(""); setComposeImage(null); }
       setActiveEmojiPicker(null);
-      if (textareaRef.current) textareaRef.current.style.height = 'auto';
       setIsSubmitting(false);
-      loadTimeline(); 
+      loadTimeline();
       if (currentView === "profile") loadProfile();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
