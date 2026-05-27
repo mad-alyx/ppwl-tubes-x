@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { fetchApi } from "../../utils/api";
-import Xlogo  from "./Xlogo";
+import XLogo from "./Xlogo";
 
 type FlowType = "google" | "manual";
 
@@ -109,7 +109,7 @@ export const AuthFlowModal = ({ type, onComplete }: AuthFlowModalProps) => {
         >
           ✕
         </button>
-        <Xlogo className="h-8 fill-white mx-auto mb-6" />
+        <XLogo className="h-8 fill-white mx-auto mb-6" />
 
         {/* STEP: Data Diri (manual step 1) */}
         {type === "manual" && step === 1 && (

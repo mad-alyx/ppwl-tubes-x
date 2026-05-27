@@ -1,8 +1,8 @@
-// components/LoginModal.tsx
+//components/LoginModal.tsx 
 
 import { useState } from "react";
 import { fetchApi } from "../../utils/api";
-import { Xlogo } from "./Xlogo";
+import Xlogo from "./Xlogo";
 
 const isValidEmailFormat = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,7 +59,7 @@ export const LoginModal = ({ onSuccess, onClose, onSwitchToRegister }: LoginModa
             <h2 className="text-3xl font-bold mb-8">Masuk ke X</h2>
             <div className="flex flex-col gap-4">
               <button
-                onClick={() => (window.location.href = "http://localhost:3000/api/auth/google")}
+                onClick={() => (window.location.href = import.meta.env.VITE_API_BASE_URL + "/api/auth/google")}
                 className="w-full bg-white text-black font-bold py-2.5 rounded-full hover:bg-gray-200 transition flex items-center justify-center gap-2"
               >
                 <img src="https://www.gstatic.com/images/branding/googleg/svg/google_g_normal.svg" alt="Google" className="w-5 h-5" />
