@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 local.txt
 apps/backend/.env
+apps/frontend/.env
+.env
