@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/LogIn_SignIn';
+import Login from './pages/Login';
 export default function App() {
   return (
     <Router>
