@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+local.txt
+apps/backend/.env
+apps/frontend/.env
+.env
