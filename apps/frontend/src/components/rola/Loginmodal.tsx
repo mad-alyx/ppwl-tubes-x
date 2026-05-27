@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { fetchApi } from "../../utils/api";
-import Xlogo from "./XLogo";
+import Xlogo from "./Xlogo";
 
 const isValidEmailFormat = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
