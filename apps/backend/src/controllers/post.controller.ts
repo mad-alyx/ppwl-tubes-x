@@ -5,19 +5,22 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const PostController = {
-  async getPosts(currentUserId: string) {
+async getPosts(currentUserId: string) {
     const posts = await prisma.post.findMany({
       orderBy: { createdAt: "desc" },
+      take: 20, // limit 20 posts
       include: {
         author: { select: { id: true, name: true, avatarUrl: true } },
         likes: { where: { userId: currentUserId } },
         comments: {
           where: { parentId: null }, 
+          take: 5, // limit 5 comments per post
           include: {
             author: { select: { id: true, name: true, avatarUrl: true } },
             likes: { where: { userId: currentUserId } }, 
             _count: { select: { likes: true, replies: true } },
             replies: {
+              take: 3, // limit 3 replies per comment
               include: { 
                 author: { select: { id: true, name: true, avatarUrl: true } },
                 likes: { where: { userId: currentUserId } }, 
@@ -31,7 +34,7 @@ export const PostController = {
         _count: { select: { comments: true, likes: true } },
       },
     });
-
+    
     // Menambahkan tipe eksplisit ": any" untuk meredam protes strict TypeScript
     return posts.map((post: any) => {
       const { likes, comments, ...rest } = post;

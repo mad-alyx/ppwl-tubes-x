@@ -207,11 +207,29 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // ─── Handler ──────────────────────────────────────────────────────────────
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string | null>>) => {
-    const file = e.target.files?.[0];
-    if (file) { const r = new FileReader(); r.onloadend = () => setter(r.result as string); r.readAsDataURL(file); }
-  };
-
+const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string | null>>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  
+  try {
+    const token = localStorage.getItem("jwt_token");
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/upload/presigned-url?filename=${encodeURIComponent(file.name)}&contentType=${encodeURIComponent(file.type)}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    
+    await fetch(data.data.uploadUrl, {
+      method: "PUT",
+      body: file,
+      headers: { "Content-Type": file.type }
+    });
+    
+    setter(data.data.fileUrl);
+  } catch (err) {
+    console.error("Upload gagal:", err);
+    setError("Gagal upload gambar.");
+  }
+};
   const handleInputResize = (e: React.ChangeEvent<HTMLTextAreaElement>, ref: React.RefObject<HTMLTextAreaElement | null>, setter: any) => {
     setter(e.target.value);
     if (ref.current) { ref.current.style.height = 'auto'; ref.current.style.height = `${ref.current.scrollHeight}px`; }

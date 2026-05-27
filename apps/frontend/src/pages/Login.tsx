@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Xlogo } from "./Xlogo";
+import Xlogo from "../components/rola/Xlogo";
 import { AuthFlowModal } from "../components//rola/Authflowmodal";
 import { LoginModal } from "../components/rola/Loginmodal";
 
@@ -64,7 +64,7 @@ export default function Login() {
 
           <div className="w-full max-w-[300px] flex flex-col gap-3">
             <button
-              onClick={() => (window.location.href = "http://localhost:3000/api/auth/google")}
+              onClick={() => (window.location.href = import.meta.env.VITE_API_BASE_URL + "/api/auth/google")}
               className="w-full bg-white text-black hover:bg-[#D7DBDC] font-bold py-2.5 rounded-full transition flex items-center justify-center gap-2"
             >
               <img
