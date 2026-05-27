@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import XLogo from "../components/rola/XLogo";
+import XLogo from "../components/rola/Xlogo";
 import { AuthFlowModal } from "../components//rola/Authflowmodal";
 import { LoginModal } from "../components/rola/Loginmodal";
 
