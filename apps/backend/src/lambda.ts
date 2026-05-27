@@ -14,6 +14,7 @@ const CORS_HEADERS = {
 };
 
 const app = new Elysia()
+  .get("/", () => ({ service: "PPWL Social Media API", status: "ready", message: "API siap dikembangkan." }))
   .use(cors({
     origin: ["http://www.ppwl-a1.store.s3-website-us-east-1.amazonaws.com", "http://ppwl-a1.store.s3-website-us-east-1.amazonaws.com"],
     credentials: true,

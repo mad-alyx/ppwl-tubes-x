@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
-    "build": "bun build src/index.ts --target=bun --outfile=dist/index.js",
-    "start": "bun run dist/index.js",
+    "dev": "bun run --watch src/lambda.ts",
+    "build": "bun build src/lambda.ts --target=bun --outfile=dist/lambda.js",
+    "start": "bun run dist/lambda.js",
     "db:generate": "prisma generate",
     "db:push": "prisma db push"
   },
