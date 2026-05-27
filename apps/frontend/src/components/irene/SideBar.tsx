@@ -62,7 +62,7 @@ export default function SideBar() {
     <div className="flex flex-col justify-between h-screen p-2 sticky top-0 xl:w-64 border-r border-[#2F3336]">
       <div className="flex flex-col gap-2 mt-1">
         <Link to="/beranda" className="p-3 hover:bg-[#16181C] rounded-full w-fit transition text-white mb-2 block">
-          <XIcon size={28} />
+          <img src="/img/rola/eX.jpeg" className="h-7 w-7 rounded-sm" alt="eX logo" />
         </Link>
         
         {/* Menggunakan Ikon Home Ori */}
