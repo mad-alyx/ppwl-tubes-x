@@ -1,6 +1,7 @@
 // apps/backend/src/controllers/auth.controller.ts
 
 import { prisma } from "../db/setup";
+import bcrypt from 'bcryptjs';
 
 // Definisi antarmuka untuk respons token Google
 interface GoogleTokenResponse {
@@ -35,10 +36,7 @@ export const AuthController = {
       throw new Error("Email telah terdaftar di dalam sistem.");
     }
 
-    const hashedPassword = await Bun.password.hash(password, {
-      algorithm: "bcrypt",
-      cost: 10,
-    });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await prisma.user.create({
       data: {
@@ -70,7 +68,7 @@ export const AuthController = {
       throw new Error("Kredensial autentikasi tidak valid.");
     }
 
-    const isPasswordMatch = await Bun.password.verify(password, user.password);
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
       throw new Error("Kredensial autentikasi tidak valid.");

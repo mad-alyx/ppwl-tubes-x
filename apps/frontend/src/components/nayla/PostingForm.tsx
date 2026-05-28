@@ -10,7 +10,7 @@ type Props = {
   postImage: string | null;
   postImageInputRef: React.RefObject<HTMLInputElement | null> | null;
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string | null>>) => void;
-  setPostImage: (v: string | null) => void;
+  setPostImage: React.Dispatch<React.SetStateAction<string | null>>;
   activeEmojiPicker: "post" | "reply" | "compose" | null;
   setActiveEmojiPicker: (v: any) => void;
   EmojiDropdown: any;

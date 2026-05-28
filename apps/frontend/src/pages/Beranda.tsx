@@ -33,7 +33,6 @@ export default function Beranda(props: Props) {
         <h2 className="text-xl font-bold p-4 pb-0">Beranda</h2>
         <div className="flex w-full mt-2">
            <div className="flex-1 py-3 text-center font-bold relative cursor-pointer hover:bg-white/5 transition">Untuk Anda<div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-1 bg-[#1D9BF0] rounded-full"></div></div>
-           <div className="flex-1 py-3 text-center text-gray-500 font-bold opacity-50 hover:bg-white/5 transition cursor-pointer">Mengikuti</div>
         </div>
       </div>
 
