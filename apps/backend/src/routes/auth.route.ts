@@ -46,19 +46,17 @@ export const authRoutes = new Elysia({ prefix: "/api/auth" })
       }),
     }
   )
-  // --- BLOK OAUTH GOOGLE ---
   .get("/google", ({ redirect }) => {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const redirectUri = process.env.GOOGLE_REDIRECT_URI;
     
-    // Validasi eksistensi kredensial
     if (!clientId || clientId === "masukkan_client_id_google_disini") {
       return { status: "error", message: "Kredensial Google OAuth belum dikonfigurasi." };
     }
 
     const scope = "email profile";
-const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}&prompt=select_account`;    
-    // Mengalihkan peramban klien ke server otorisasi Google
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+    
     return redirect(googleAuthUrl);
   })
   .get("/google/callback", async ({ query, jwt, set, redirect }) => {
@@ -66,14 +64,11 @@ const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${
       const code = query.code as string;
       if (!code) throw new Error("Authorization Code tidak ditemukan.");
 
-      // Tangkap isNewUser dari controller
       const { token, isNewUser } = await AuthController.handleGoogleCallback(code, jwt);
 
-      // Sisipkan isNewUser ke dalam parameter URL frontend
-      return redirect(`http://localhost:5173/auth/success?token=${token}&isNewUser=${isNewUser}`);
-      
+      return redirect(`http://www.ppwl-a1.store.s3-website-us-east-1.amazonaws.com/auth/success?token=${token}&isNewUser=${isNewUser}`);      
     } catch (error: any) {
       set.status = 500;
-      return redirect(`http://localhost:5173/auth/error?message=${encodeURIComponent(error.message)}`);
+      return redirect(`http://www.ppwl-a1.store.s3-website-us-east-1.amazonaws.com/auth/error?message=${encodeURIComponent(error.message)}`);
     }
   });
