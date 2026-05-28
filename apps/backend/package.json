@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
-    "build": "bun build src/index.ts --target=bun --outfile=dist/index.js",
-    "start": "bun run dist/index.js",
+    "dev": "bun run --watch src/lambda.ts",
+    "build": "bun build src/lambda.ts --target=bun --outfile=dist/lambda.js",
+    "start": "bun run dist/lambda.js",
     "db:generate": "prisma generate",
     "db:push": "prisma db push"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1054.0",
+    "@aws-sdk/s3-request-presigner": "^3.1054.0",
     "@elysiajs/cors": "^1.2.0",
     "@elysiajs/jwt": "^1.2.0",
     "@elysiajs/static": "^1.4.10",
@@ -19,7 +21,12 @@
   },
   "devDependencies": {
     "bun-types": "latest",
-    "prisma": "^5.14.0"
+    "prisma": "^5.14.0",
+    "@types/bun": "latest"
   },
-  "module": "src/index.ts"
+  "module": "src/index.ts",
+  "private": true,
+  "peerDependencies": {
+    "typescript": "^5"
+  }
 }
