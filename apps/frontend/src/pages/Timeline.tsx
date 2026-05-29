@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchApi } from "../utils/api";
 import { 
-  Home, Search, Bell, Mail, User, LogOut, X, MoreHorizontal, Edit, Trash2, BarChart2, CalendarClock, MapPin, Globe
+  Home, Search, Bell, User, LogOut, X, MoreHorizontal, Edit, Trash2, BarChart2, CalendarClock, MapPin, Globe
 } from "lucide-react";
 import Beranda from "./Beranda";
 import Notifikasi from "./Notifikasi";
@@ -379,14 +379,12 @@ const composeCharCount = composeContent.length;
       {/* === STRUKTUR LAYAR UTAMA (KIRI, TENGAH, KANAN) === */}
       <div className="w-full max-w-[1265px] flex justify-between">
         
-        <header className="w-[88px] xl:w-[275px] flex flex-col justify-between py-4 px-2 xl:px-4 h-screen sticky top-0">
+        <header className="hidden sm:flex w-[88px] xl:w-[275px] flex-col justify-between py-4 px-2 xl:px-4 h-screen sticky top-0">
           <div className="flex flex-col items-center xl:items-start gap-2">
             <div onClick={() => switchView("home")} className="p-3 w-max hover:bg-white/10 rounded-full cursor-pointer transition mb-2"><Xlogo /></div>
             <nav className="flex flex-col gap-1 w-full">
               <div onClick={() => switchView("home")} className={`p-3 w-max xl:w-fit flex items-center gap-5 hover:bg-white/10 rounded-full cursor-pointer transition ${currentView === "home" || currentView === "detail" ? "font-bold" : ""}`}><Home className="w-7 h-7" /><span className="hidden xl:inline text-xl">Beranda</span></div>
-              <div className="p-3 w-max xl:w-fit flex items-center gap-5 hover:bg-white/10 rounded-full cursor-pointer transition opacity-50"><Search className="w-7 h-7" /><span className="hidden xl:inline text-xl">Jelajahi</span></div>
               <div onClick={() => switchView("notifications")} className={`p-3 w-max xl:w-fit flex items-center gap-5 hover:bg-white/10 rounded-full cursor-pointer transition ${currentView === "notifications" ? "font-bold" : ""}`}><Bell className="w-7 h-7" /><span className="hidden xl:inline text-xl">Notifikasi</span></div>
-              <div className="p-3 w-max xl:w-fit flex items-center gap-5 hover:bg-white/10 rounded-full cursor-pointer transition opacity-50"><Mail className="w-7 h-7" /><span className="hidden xl:inline text-xl">Pesan</span></div>
               <div onClick={() => switchView("profile")} className={`p-3 w-max xl:w-fit flex items-center gap-5 hover:bg-white/10 rounded-full cursor-pointer transition ${currentView === "profile" ? "font-bold" : ""}`}><User className="w-7 h-7" /><span className="hidden xl:inline text-xl">Profil</span></div>
             </nav>
             <button onClick={() => setIsComposeOpen(true)} className="mt-4 bg-[#1D9BF0] hover:bg-[#1a8cd8] text-white font-bold w-12 h-12 xl:w-11/12 xl:h-14 rounded-full transition flex items-center justify-center shadow-[0_8px_24px_rgba(29,155,240,0.3)]"><span className="hidden xl:inline text-lg">Posting</span><svg viewBox="0 0 24 24" aria-hidden="true" className="w-6 h-6 fill-white xl:hidden"><path d="M23 3c-6.62-.1-10.38 2.421-13.05 6.095C7.945 12.827 2 21.3 2 21.3c-1.125 1.574-.63 3.65.688 4.238 1.15.518 2.627-.1 3.52-1.3l8.6-11.455C18.667 9.208 21.5 5.5 23 3zm-20.5 13.5c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5zm11.5-9.5c0 .828-.672 1.5-1.5 1.5s-1.5-.672-1.5-1.5.672-1.5 1.5-1.5 1.5.672 1.5 1.5z"></path></svg></button>
@@ -400,7 +398,7 @@ const composeCharCount = composeContent.length;
           </div>
         </header>
 
-        <main className="flex-1 max-w-[600px] border-x border-gray-800 min-h-screen relative">
+        <main className="flex-1 max-w-[600px] border-x border-gray-800 min-h-screen relative pb-16 sm:pb-0">
           
           {error && (
             <div className="m-4 p-4 text-white bg-[#F4212E]/20 border border-[#F4212E]/40 rounded-xl relative animate-in fade-in duration-200">
@@ -498,7 +496,36 @@ const composeCharCount = composeContent.length;
             <p className="text-xs text-gray-500">15.4 rb postingan</p>
           </div>
         </aside>
-
+        
+        {/* === BOTTOM NAV MOBILE === */}
+        <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur border-t border-gray-800 flex justify-around items-center py-2 sm:hidden z-50">
+          <div
+            onClick={() => switchView("home")}
+            className={`p-3 rounded-full hover:bg-white/10 cursor-pointer transition ${currentView === "home" || currentView === "detail" ? "text-white" : "text-gray-500"}`}
+          >
+            <Home className="w-6 h-6" />
+          </div>
+          <div
+            onClick={() => switchView("notifications")}
+            className={`p-3 rounded-full hover:bg-white/10 cursor-pointer transition ${currentView === "notifications" ? "text-white" : "text-gray-500"}`}
+          >
+            <Bell className="w-6 h-6" />
+          </div>
+          <button
+            onClick={() => setIsComposeOpen(true)}
+            className="bg-[#1D9BF0] hover:bg-[#1a8cd8] p-3 rounded-full transition"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 fill-white">
+              <path d="M23 3c-6.62-.1-10.38 2.421-13.05 6.095C7.945 12.827 2 21.3 2 21.3c-1.125 1.574-.63 3.65.688 4.238 1.15.518 2.627-.1 3.52-1.3l8.6-11.455C18.667 9.208 21.5 5.5 23 3zm-20.5 13.5c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5zm11.5-9.5c0 .828-.672 1.5-1.5 1.5s-1.5-.672-1.5-1.5.672-1.5 1.5-1.5 1.5.672 1.5 1.5z"/>
+            </svg>
+          </button>
+          <div
+            onClick={() => switchView("profile")}
+            className={`p-3 rounded-full hover:bg-white/10 cursor-pointer transition ${currentView === "profile" ? "text-white" : "text-gray-500"}`}
+          >
+            <User className="w-6 h-6" />
+          </div>
+        </nav>
       </div>
     </div>
   );

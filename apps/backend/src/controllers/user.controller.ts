@@ -15,9 +15,35 @@ export const UserController = {
             author: { select: { id: true, name: true, avatarUrl: true } },
             likes: { where: { userId } },
             _count: { select: { comments: true, likes: true } },
-          }
-        }
-      }
+          },
+        },
+        comments: {
+          orderBy: { createdAt: "desc" },
+          include: {
+            author: { select: { id: true, name: true, avatarUrl: true } },
+            post: {
+              select: {
+                id: true,
+                content: true,
+                author: { select: { id: true, name: true, avatarUrl: true } },
+              },
+            },
+            _count: { select: { likes: true } },
+          },
+        },
+        likes: {
+          orderBy: { createdAt: "desc" },
+          include: {
+            post: {
+              include: {
+                author: { select: { id: true, name: true, avatarUrl: true } },
+                likes: { where: { userId } },
+                _count: { select: { comments: true, likes: true } },
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!user) throw new Error("Pengguna tidak ditemukan");
@@ -27,22 +53,28 @@ export const UserController = {
       return { ...rest, isLiked: likes.length > 0 };
     });
 
-    return { ...user, posts: postsWithLikes };
+    const likedPosts = user.likes.map((like) => {
+      const { likes, ...postRest } = like.post;
+      return { ...postRest, isLiked: likes.length > 0 };
+    });
+
+    const { likes, ...userRest } = user;
+    return { ...userRest, posts: postsWithLikes, likedPosts };
   },
 
   async updateProfile(userId: string, name: string, avatarUrl?: string, bannerUrl?: string, bio?: string, location?: string, website?: string) {
     if (!name.trim()) throw new Error("Nama tidak boleh kosong.");
-    
+
     return await prisma.user.update({
       where: { id: userId },
-      data: { 
-        name, 
+      data: {
+        name,
         avatarUrl: avatarUrl || null,
         bannerUrl: bannerUrl || null,
         bio: bio || null,
         location: location || null,
-        website: website || null
+        website: website || null,
       },
     });
-  }
+  },
 };
