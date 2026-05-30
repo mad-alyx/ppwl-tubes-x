@@ -7,7 +7,7 @@ import { userRoutes } from "./routes/user.route";
 import { uploadRoutes } from "./routes/upload.route";
 
 const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "https://ppwl-a1.store",
+  "Access-Control-Allow-Origin": "https://www.ppwl-a1.store",
   "Access-Control-Allow-Credentials": "true",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
@@ -21,6 +21,8 @@ const app = new Elysia()
       "https://www.ppwl-a1.store",
       "http://ppwl-a1.store.s3-website-us-east-1.amazonaws.com",
       "http://www.ppwl-a1.store.s3-website-us-east-1.amazonaws.com",
+      "http://localhost:5173",
+      "http://localhost:3000",
     ],
     credentials: true,
   }))
