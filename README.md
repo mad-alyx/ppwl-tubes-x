@@ -1,13 +1,8 @@
 # X - Clone - Team 1
 Sebuah replika (clone) dari platform media sosial **X (sebelumnya Twitter)**. Proyek ini dikembangkan menggunakan arsitektur **Monorepo** untuk mereplikasi fitur-fitur inti platform mikroblogging, mulai dari autentikasi pengguna, linimasa (feed), hingga interaksi antar pengguna secara real-time.
 
-## 🌐 Link Deploy
-| Layanan | URL |
-| :--- | :--- |
-| **Frontend (S3)** | http://www.ppwl-a1.store.s3-website-us-east-1.amazonaws.com |
-| **Backend (Lambda)** | https://xhxps5erkehy6a36eujdj7tohq0akfzu.lambda-url.us-east-1.on.aws |
 
-## 🌐 Link Production
+## 🌐 Link Production & Deploy
 | Layanan | URL |
 | :--- | :--- |
 | **Production** | http://www.ppwl-a1.store |
