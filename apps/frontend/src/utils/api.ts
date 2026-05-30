@@ -1,17 +1,18 @@
 // apps/frontend/src/utils/api.ts
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL + "/api";
+export const API_BASE_URL = import.meta.env.VITE_API_URL + "/api";
 
 export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
-  const token = localStorage.getItem("jwt_token");
+  // Ambil token dari Zustand persist storage
+  const authStorage = localStorage.getItem("auth-storage");
+  const token = authStorage ? JSON.parse(authStorage)?.state?.token : null;
+  
   const headers = new Headers(options.headers);
 
-  // Otomatis menyuntikkan token otorisasi jika sesi aktif
   if (token) {
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  // Mengatur tipe konten bawaan jika bukan pengiriman berkas (FormData)
   if (!(options.body instanceof FormData) && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }

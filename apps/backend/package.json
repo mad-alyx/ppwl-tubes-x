@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/lambda.ts",
+    "dev": "bun run --watch src/index.ts",
     "build": "bun build src/lambda.ts --target=bun --outfile=dist/lambda.js",
     "start": "bun run dist/lambda.js",
     "db:generate": "prisma generate",

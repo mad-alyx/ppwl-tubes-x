@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Xlogo from "../components/rola/XLogo";
 import { AuthFlowModal } from "../components//rola/Authflowmodal";
 import { LoginModal } from "../components/rola/Loginmodal";
+import { useGoogleAuth } from "../hooks/useGoogleAuth"; // TAMBAH INI
 
 type AuthMode = "landing" | "login";
 type FlowType = "google" | "manual";
@@ -14,6 +15,7 @@ export default function Login() {
   const [mode, setMode] = useState<AuthMode>("landing");
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [flowType, setFlowType] = useState<FlowType>("manual");
+  const { loginWithGoogle, isLoading } = useGoogleAuth(); // TAMBAH INI
 
   useEffect(() => {
     if (localStorage.getItem("needs_onboarding") === "true") {
@@ -36,12 +38,10 @@ export default function Login() {
 
   return (
     <>
-      {/* Modal Register / Onboarding */}
       {showOnboarding && (
         <AuthFlowModal type={flowType} onComplete={handleFinishOnboarding} />
       )}
 
-      {/* Modal Login */}
       {mode === "login" && (
         <LoginModal
           onSuccess={() => navigate("/")}
@@ -50,32 +50,29 @@ export default function Login() {
         />
       )}
 
-      {/* Halaman Landing */}
       <div className="flex flex-col lg:flex-row min-h-screen bg-black text-[#E7E9EA]">
-        {/* Kolom Kiri: Logo */}
         <div className="flex-1 flex items-center justify-center p-8 lg:p-0">
           <Xlogo className="h-16 lg:h-[380px] max-w-full" />
         </div>
 
-        {/* Kolom Kanan: CTA */}
         <div className="flex-1 flex flex-col justify-center p-8 lg:p-16">
           <h1 className="text-5xl lg:text-7xl font-bold tracking-tight mb-12">Sedang terjadi sekarang</h1>
           <h2 className="text-3xl font-bold mb-8">Gabung sekarang.</h2>
 
           <div className="w-full max-w-[300px] flex flex-col gap-3">
+            {/* GANTI BAGIAN INI */}
             <button
-              onClick={() => (window.location.href = import.meta.env.VITE_API_BASE_URL + "/api/auth/google")}
-              className="w-full bg-white text-black hover:bg-[#D7DBDC] font-bold py-2.5 rounded-full transition flex items-center justify-center gap-2"
+              onClick={() => loginWithGoogle()}
+              disabled={isLoading}
+              className="w-full bg-white text-black hover:bg-[#D7DBDC] font-bold py-2.5 rounded-full transition flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <img
                 src="https://www.gstatic.com/images/branding/googleg/svg/google_g_normal.svg"
                 alt="Google"
                 className="w-5 h-5"
               />
-              Daftar dengan Google
+              {isLoading ? "Memuat..." : "Daftar dengan Google"}
             </button>
-
-      
 
             <div className="flex items-center gap-2 my-1">
               <hr className="flex-1 border-gray-800" />

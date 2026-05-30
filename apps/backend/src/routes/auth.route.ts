@@ -46,17 +46,34 @@ export const authRoutes = new Elysia({ prefix: "/api/auth" })
       }),
     }
   )
-  .get("/google", ({ redirect }) => {
+  // ROUTE BARU: Terima access_token dari FE
+  .post(
+    "/google",
+    async ({ body, jwt, set }) => {
+      try {
+        return await AuthController.handleGoogleAccessToken(body.access_token, jwt);
+      } catch (error: any) {
+        set.status = 401;
+        return { status: "error", message: error.message };
+      }
+    },
+    {
+      body: t.Object({
+        access_token: t.String(),
+      }),
+    }
+  )
+  .get("/google/redirect", ({ redirect }) => {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const redirectUri = process.env.GOOGLE_REDIRECT_URI;
-    
-    if (!clientId || clientId === "masukkan_client_id_google_disini") {
+
+    if (!clientId) {
       return { status: "error", message: "Kredensial Google OAuth belum dikonfigurasi." };
     }
 
     const scope = "email profile";
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
-    
+
     return redirect(googleAuthUrl);
   })
   .get("/google/callback", async ({ query, jwt, set, redirect }) => {
@@ -66,7 +83,7 @@ export const authRoutes = new Elysia({ prefix: "/api/auth" })
 
       const { token, isNewUser } = await AuthController.handleGoogleCallback(code, jwt);
 
-      return redirect(`http://www.ppwl-a1.store.s3-website-us-east-1.amazonaws.com/auth/success?token=${token}&isNewUser=${isNewUser}`);      
+      return redirect(`http://www.ppwl-a1.store.s3-website-us-east-1.amazonaws.com/auth/success?token=${token}&isNewUser=${isNewUser}`);
     } catch (error: any) {
       set.status = 500;
       return redirect(`http://www.ppwl-a1.store.s3-website-us-east-1.amazonaws.com/auth/error?message=${encodeURIComponent(error.message)}`);
