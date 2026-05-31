@@ -3,8 +3,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Search, Users, Mail, Slash, Bookmark, 
-  Rocket, BadgeCheck, User, MoreHorizontal, Feather 
+  Rocket, BadgeCheck, User, LogOut, Feather 
 } from 'lucide-react';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 // 1. Ikon X Original
 const XIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
@@ -13,17 +14,12 @@ const XIcon = ({ size = 24, className = "" }: { size?: number, className?: strin
   </svg>
 );
 
-// 2. Ikon Home Ori Twitter hasil temuan Ale kemarin
 const HomeIconOri = ({ size = 28, active = false }: { size?: number, active?: boolean }) => (
   <svg viewBox="0 0 24 24" width={size} height={size} fill={active ? "currentColor" : "none"} stroke="currentColor" strokeWidth={active ? "0" : "2"}>
     <path d="M 19.993 9.042 C 19.48 5.017 16.054 2 11.996 2 s -7.49 3.021 -7.999 7.051 L 2.866 18 H 7.1 c 0.463 2.282 2.481 4 4.9 4 s 4.437 -1.718 4.9 -4 h 4.236 l -1.143 -8.958 Z M 12 20 c -1.306 0 -2.417 -0.835 -2.829 -2 h 5.658 c -0.412 1.165 -1.523 2 -2.829 2 Z m -6.866 -4 l 0.847 -6.698 C 6.364 6.272 8.941 4 11.996 4 s 5.627 2.268 6.013 5.295 L 18.864 16 H 5.134 z"></path>
   </svg>
 );
 
-/**
- * FIX VISUAL: Ikon Notifikasi (Lonceng) Original Versi Tipis Estetik
- * strokeWidth diturunkan ke 1.5 agar ramping, ditambah round agar lekukannya halus.
- */
 export const NotificationIconOri = ({ size = 28, active = false }: { size?: number, active?: boolean }) => (
   <svg 
     viewBox="0 0 24 24" 
@@ -31,9 +27,9 @@ export const NotificationIconOri = ({ size = 28, active = false }: { size?: numb
     height={size} 
     fill={active ? "currentColor" : "none"} 
     stroke="currentColor" 
-    strokeWidth={active ? "0" : "1.5"} // UNTUK MENIPISKAN: Ganti angka ini (bisa 1.5 atau 1.2 kalau mau super tipis)
-    strokeLinecap="round"              // Biar ujung garis halus
-    strokeLinejoin="round"             // Biar sudut tekukan rapi
+    strokeWidth={active ? "0" : "1.5"}
+    strokeLinecap="round"
+    strokeLinejoin="round"
   >
     <path d="M19.993 9.042C19.48 5.017 16.054 2 11.996 2s-7.49 3.021-7.999 7.051L2.866 18H7.1c.463 2.282 2.481 4 4.9 4s4.437-1.718 4.9-4h4.236l-1.143-8.958zM12 20c-1.306 0-2.417-.835-2.829-2h5.658c-.412 1.165-1.523 2-2.829 2zm-6.866-4l.847-6.698C6.364 6.272 8.941 4 11.996 4s5.627 2.268 6.013 5.295L18.864 16H5.134z"></path>
   </svg>
@@ -54,10 +50,15 @@ const SidebarLink = ({ to, icon, label, active }: { to: string, icon: React.Reac
 export default function SideBar() {
   const location = useLocation();
   const currentPath = location.pathname;
+  const { user, logout } = useAuthStore();
 
-  // Menentukan tab mana yang sedang aktif berdasarkan URL browser
   const isHomeActive = currentPath === '/beranda' || currentPath === '/';
   const isNotificationsActive = currentPath === '/notifications';
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = '/';
+  };
 
   return (
     <div className="flex flex-col justify-between h-screen p-2 sticky top-0 xl:w-64 border-r border-[#2F3336]">
@@ -66,14 +67,9 @@ export default function SideBar() {
           <img src="/img/rola/eX.jpeg" className="h-7 w-7 rounded-sm" alt="eX logo" />
         </Link>
         
-        {/* Menggunakan Ikon Home Ori */}
         <SidebarLink to="/beranda" icon={<HomeIconOri size={28} active={isHomeActive} />} label="Home" active={isHomeActive} />
-        
         <SidebarLink to="/explore" icon={<Search size={28} />} label="Explore" active={currentPath === '/explore'} />
-        
-        {/* Menggunakan Ikon Notifikasi Ori buatan Ale */}
         <SidebarLink to="/notifications" icon={<NotificationIconOri size={28} active={isNotificationsActive} />} label="Notifications" active={isNotificationsActive} />
-        
         <SidebarLink to="/follow" icon={<Users size={28} />} label="Follow" active={currentPath === '/follow'} />
         <SidebarLink to="/messages" icon={<Mail size={28} />} label="Messages" active={currentPath === '/messages'} />
         <SidebarLink to="/grok" icon={<Slash size={28} />} label="Grok" active={currentPath === '/grok'} />
@@ -90,15 +86,29 @@ export default function SideBar() {
         </button>
       </div>
       
-      <div className="flex items-center justify-between p-3 hover:bg-[#16181C] rounded-full cursor-pointer transition mb-2">
+      {/* Profile + Logout */}
+      <div className="flex items-center justify-between p-3 rounded-full mb-2">
+        {/* Kiri: avatar + nama — tidak bisa diklik */}
         <div className="flex gap-3 items-center">
-          <div className="w-10 h-10 rounded-full bg-[#2F3336]" />
+          <img
+            src={user?.avatar_url || `https://ui-avatars.com/api/?name=${user?.name}&background=2F3336&color=fff`}
+            alt={user?.name}
+            className="w-10 h-10 rounded-full bg-[#2F3336] object-cover"
+          />
           <div className="hidden xl:block">
-            <p className="text-white font-bold text-sm">Ale</p>
-            <p className="text-[#71767B] text-sm">@alee_panji</p>
+            <p className="text-white font-bold text-sm">{user?.name || 'Pengguna'}</p>
+            <p className="text-[#71767B] text-sm">@{user?.username || 'user'}</p>
           </div>
         </div>
-        <MoreHorizontal size={18} className="text-[#E7E9EA] hidden xl:block" />
+
+        {/* Tombol logout — bg merah, hanya ini yang bisa diklik */}
+        <button
+          onClick={handleLogout}
+          className="bg-red-600 hover:bg-red-700 text-white rounded-full p-2 hidden xl:flex items-center justify-center transition"
+          title="Logout"
+        >
+          <LogOut size={16} />
+        </button>
       </div>
     </div>
   );

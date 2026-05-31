@@ -44,7 +44,7 @@ export default function EditProfileModal({
 
   return (
     <div className="fixed inset-0 bg-[#242d34]/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-black w-full max-w-[600px] h-[90vh] sm:h-[80vh] rounded-2xl flex flex-col relative border border-gray-800 overflow-hidden">
+      <div className="bg-black w-full max-w-150 h-[90vh] sm:h-[80vh] rounded-2xl flex flex-col relative border border-gray-800 overflow-hidden">
         <form onSubmit={handleProfileSave} className="flex flex-col h-full">
           
           {/* Header Modal Profil */}
