@@ -366,7 +366,7 @@ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, setter:
   };
 
   const EmojiDropdown: React.FC<{ target: "post" | "reply" | "compose" }> = ({ target }) => (
-    <div aria-label={`Emoji picker for ${target}`} className="absolute top-12 left-0 z-50 bg-[#16181C] border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.1)] p-3 w-[300px]">
+    <div aria-label={`Emoji picker for ${target}`} className="absolute top-12 left-0 z-50 bg-[#16181C] border border-gray-800 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.1)] p-3 w-75">
       <div className="flex justify-between items-center mb-2 px-1 border-b border-gray-800 pb-2">
         <span className="text-sm font-bold text-gray-300">Pilih Emoji</span>
         <button type="button" onClick={() => setActiveEmojiPicker(null)} className="text-gray-500 hover:text-white transition bg-gray-800 rounded-full p-1"><X className="w-4 h-4" /></button>

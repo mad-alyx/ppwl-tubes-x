@@ -50,7 +50,7 @@ export default function ComposeModal({
 
   return (
     <div className="fixed inset-0 bg-[#242d34]/50 backdrop-blur-sm flex items-start justify-center z-50 p-4 pt-16">
-      <div className="bg-black w-full max-w-[600px] rounded-2xl flex flex-col relative border border-gray-800">
+      <div className="bg-black w-full max-w-150 rounded-2xl flex flex-col relative border border-gray-800">
         <div className="flex items-center justify-between px-4 py-2 border-b border-gray-800">
           <div className="flex items-center gap-4">
             <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition">
