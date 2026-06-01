@@ -72,7 +72,7 @@ export default function PostDetail({
         {selectedPostDetail.imageUrl && (
           <img
             src={selectedPostDetail.imageUrl}
-            className="mt-2 mb-2 rounded-2xl border border-gray-800 max-h-[500px] w-full object-cover"
+            className="mt-2 mb-2 rounded-2xl border border-gray-800 max-h-125 w-full object-cover"
           />
         )}
         <div className="border-y border-gray-800 py-3 my-3 text-sm text-gray-500 flex gap-6">
